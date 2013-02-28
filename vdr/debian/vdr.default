@@ -1,0 +1,30 @@
+# Config-Directory
+CFG_DIR='/etc/vdr'
+
+# Plugin-Directory
+PLUGIN_DIR='/usr/lib/vdr/plugins'
+
+# Plugin Config-Directory
+PLUGIN_CFG_DIR='/etc/vdr/plugins'
+
+# Commmand executed by vdr to shutdown the system
+SHUTDOWNCMD='/sbin/shutdown -h now'
+
+# EPG data file
+EPG_FILE='/var/cache/vdr/epg.data'
+
+# Default port for SVDRP
+SVDRP_PORT='0'
+
+# Video-Directory
+VIDEO_DIR='/var/lib/video.00'
+
+# Environment variables to be set before starting VDR
+VDR_ENV=''
+
+# VDR options
+OPTIONS='--vfat -w 60'
+
+# Space separated names of plugins to be loaded on VDR startup. To pass any 
+# arguments to a plugin put them into the $PLUGIN_CFG_DIR/plugin.{name}.conf file.
+PLUGINS=$(echo -n $(ls $PLUGIN_DIR/libvdr-*.so.* 2> /dev/null | sed -r 's:.*/libvdr-(\w+)\.so\..+:\1:g'))

@@ -1,0 +1,7 @@
+etc/pm/sleep.d/vdr
+etc/vdr/*.conf
+usr/bin/*
+usr/share/locale
+usr/share/man
+var/cache/vdr
+var/lib/video.00

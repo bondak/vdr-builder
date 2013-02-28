@@ -1,0 +1,10 @@
+#!/bin/sh
+
+case $1 in
+     suspend|suspend_hybrid|hibernate)
+        service vdr stop
+        ;;
+     resume|thaw)
+        service vdr start
+        ;;
+esac
