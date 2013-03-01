@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+DIR := $(CURDIR)
+DESTDIR := $(DIR)/debian/tmp
+
+ifeq ($(DEB_BUILD_ARCH),amd64)
+    MAKE_ARGS += PARALLEL=PARALLEL_128_SSE
+endif
+
+ifeq ($(DEB_BUILD_ARCH),i386)
+    MAKE_ARGS += PARALLEL=PARALLEL_32_INT
+endif
+
+%:
+	dh $@ 
+
+override_dh_auto_build:
+	$(MAKE) $(MAKE_ARGS)
+
+override_dh_auto_install:
+	$(MAKE) install DESTDIR="$(DESTDIR)"
+	mkdir -p "$(DESTDIR)/etc/vdr/plugins"
+	cp "$(DIR)/debian/plugin.dvbapi.conf" "$(DESTDIR)/etc/vdr/plugins" 
+
+override_dh_installchangelogs:
