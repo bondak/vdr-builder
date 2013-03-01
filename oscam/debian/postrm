@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case "$1" in
+    purge|remove)
+        update-rc.d -f oscam remove || true
+        
+        if [ "$1" = 'purge' ]
+        then
+            rm -rf /var/log/oscam
+            rm -f /var/run/oscam.pid
+        fi
+    ;;
+esac

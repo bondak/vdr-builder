@@ -1,0 +1,10 @@
+#!/bin/sh
+
+case "$1" in
+    remove)
+        if [ -x "/etc/init.d/oscam" ]
+        then
+            invoke-rc.d oscam stop || true
+        fi
+    ;;
+esac
