@@ -27,4 +27,4 @@ OPTIONS='--vfat -w 60'
 
 # Space separated names of plugins to be loaded on VDR startup. To pass any 
 # arguments to a plugin put them into the $PLUGIN_CFG_DIR/plugin.{name}.conf file.
-PLUGINS=$(echo -n $(ls $PLUGIN_DIR/libvdr-*.so.* 2> /dev/null | sed -r 's:.*/libvdr-(\w+)\.so\..+:\1:g'))
+PLUGINS=$(echo -n $(ls $PLUGIN_DIR/libvdr-*.so.* 2> /dev/null | sed -r 's:.*/libvdr-(.+)\.so\..+:\1:g'))
