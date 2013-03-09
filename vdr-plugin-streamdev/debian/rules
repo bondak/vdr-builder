@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+
+DIR := $(CURDIR)
+DESTDIR := $(DIR)/debian/tmp
+
+%:
+	dh $@ 
+
+override_dh_auto_install:
+	$(MAKE) -p install DESTDIR="$(DESTDIR)" LIBDIR="$(shell pkg-config --variable=libdir vdr)"
+	[ -d "$(DESTDIR)/etc/vdr/plugins/streamdev-server" ] || mkdir -p "$(DESTDIR)/etc/vdr/plugins/streamdev-server"
+	sed 's:#192.168.100.0/24:192.168.0.0/16   :' \
+	< "$(DIR)/streamdev-server/streamdevhosts.conf" \
+	> "$(DESTDIR)/etc/vdr/plugins/streamdev-server/streamdevhosts.conf"
