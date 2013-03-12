@@ -17,7 +17,6 @@ override_dh_auto_install:
 	
 	# XVDR configs
 	[ -d "$(DESTDIR)/etc/vdr/plugins/xvdr" ] || mkdir -p "$(DESTDIR)/etc/vdr/plugins/xvdr"
-	cp "$(DIR)/xvdr/allowed_hosts.conf" "$(DESTDIR)/etc/vdr/plugins/xvdr"
 	sed -e 's;^.*PiconsURL *=.*;PiconsURL = /usr/share/xvdr/picons;' \
 	< "$(DIR)/xvdr/xvdr.conf" > "$(DESTDIR)/etc/vdr/plugins/xvdr/xvdr.conf"
 

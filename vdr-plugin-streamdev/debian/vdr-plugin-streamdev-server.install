@@ -1,3 +1,2 @@
-etc/vdr/plugins/streamdev-server/*
 usr/lib/vdr/plugins/libvdr-streamdev-server.so.*
 usr/share/locale/*/LC_MESSAGES/*server*
