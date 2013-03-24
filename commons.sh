@@ -21,7 +21,7 @@ DEPENDS="$DEPENDS git"
 : ${VDR_REV:='origin/master'}
 
 update_vdr() {
-    _git_update "$VDR_SRC_URL" "$VDR_SRC_DIR"
+    _git_update "$VDR_SRC_URL" "$VDR_SRC_DIR" ${VDR_REV#*/} ${VDR_REV%%/*}
 }
 
 update() {
