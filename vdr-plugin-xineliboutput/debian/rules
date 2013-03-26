@@ -1,6 +1,16 @@
 #!/usr/bin/make -f
 
-MAKE_OPTIONS = VDRDIR=/usr/include/vdr LIBDIR=/usr/lib LOCALEDIR=debian/tmp/usr/share/locale
+PKGCFG   = $(shell pkg-config --variable=$(1) vdr)
+CFLAGS   = $(call PKGCFG,cflags)
+CXXFLAGS = $(call PKGCFG,cxxflags)
+APIVERSION = $(call PKGCFG,apiversion)
+
+MAKE_OPTIONS = VDRDIR=/usr/include/vdr \
+               LIBDIR=/usr/lib \
+               LOCALEDIR=debian/tmp/usr/share/locale \
+               CFLAGS="$(CFLAGS)" \
+               CXXFLAGS="$(CXXFLAGS)" \
+               APIVERSION=$(APIVERSION)
 
 %:
 	dh $@
