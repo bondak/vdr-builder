@@ -30,5 +30,9 @@ override_dh_auto_install:
 
 # Scripts
 	cp -r "$(DIR)/debian/scripts"/* "$(DESTDIR)"
+	
+override_dh_strip:
+	dh_strip -pvdr --dbg-package=vdr-dbg
+	dh_strip
 
-override_dh_installchangelogs override_dh_installdocs:
+override_dh_installdocs:
