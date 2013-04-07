@@ -1,6 +1,8 @@
+etc/init
 etc/pm/sleep.d/vdr
 etc/vdr/*.conf
 usr/bin/*
+usr/sbin/*
 usr/share/locale
 usr/share/man
 var/cache/vdr

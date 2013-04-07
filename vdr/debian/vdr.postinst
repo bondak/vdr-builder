@@ -16,8 +16,8 @@ case "$1" in
         
         chown $USER:$GROUP /etc/vdr
         find /etc/vdr | xargs chown $USER:$GROUP
-        update-rc.d vdr defaults || true
-        invoke-rc.d vdr start || true
+        
+        start vdr > /dev/null 2>&1 || true
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

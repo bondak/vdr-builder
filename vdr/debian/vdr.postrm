@@ -2,14 +2,12 @@
 
 case "$1" in
     purge|remove)
-        update-rc.d -f vdr remove || true
-        
         if [ "$1" = 'purge' ]
         then
-            rm -rf /etc/vdr
+            rm -rf /etc/vdr/themes
             rm -rf /var/cache/vdr
             rm -rf /var/lib/video.00
-            rm -f /var/run/vdr.pid
+            rm -f  /var/log/upstart/vdr.*
         fi
     ;;
 esac

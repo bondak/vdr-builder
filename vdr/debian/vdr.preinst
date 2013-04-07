@@ -1,0 +1,9 @@
+#! /bin/sh
+set -e
+
+if grep -q 'BEGIN INIT INFO' /etc/init.d/vdr > /dev/null 2>&1
+then
+    # Remove obsolete SysV links
+    /etc/init.d/vdr stop > /dev/null 2>&1 || true
+    update-rc.d -f vdr remove > /dev/null 2>&1 || true
+fi

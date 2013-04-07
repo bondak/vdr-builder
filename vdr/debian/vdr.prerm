@@ -2,10 +2,7 @@
 
 case "$1" in
     remove)
-        if [ -x "/etc/init.d/vdr" ]
-        then
-            invoke-rc.d vdr stop || true
-        fi
+        stop vdr > /dev/null 2>&1 || true
     ;;
 esac
 

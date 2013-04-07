@@ -2,9 +2,9 @@
 
 case $1 in
      suspend|suspend_hybrid|hibernate)
-        service vdr stop
+        stop vdr || true
         ;;
      resume|thaw)
-        service vdr start
+        start vdr || true
         ;;
 esac
