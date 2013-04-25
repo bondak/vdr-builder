@@ -1,0 +1,5 @@
+Template: wicard-installer/confirm
+Type: boolean
+Default: true
+Description: Do you agree to download and install this software?
+ The wicard emulator will be downloaded from @WICARD_URL@
