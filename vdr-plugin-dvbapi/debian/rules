@@ -2,6 +2,7 @@
 
 DIR := $(CURDIR)
 DESTDIR := $(DIR)/debian/tmp
+MAKE_ARGS := LIBDVBCSA=true
 
 ifeq ($(DEB_BUILD_ARCH),amd64)
     MAKE_ARGS += PARALLEL=PARALLEL_128_SSE
