@@ -8,6 +8,6 @@ Homepage: http://wicard.tv
 
 Package: wicard-installer
 Architecture: any
-Depends: coreutils, curl, debconf
+Depends: coreutils, curl, debconf, file, grep
 Description: Wicard installer
  This package provides installation script for the wicard emulator.

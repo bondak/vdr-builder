@@ -5,6 +5,7 @@ set -e
 case "$1" in
     install)
         . /usr/share/debconf/confmodule
+        db_subst wicard-installer/confirm WICARD_URL '@WICARD_URL@' || true
         db_input high wicard-installer/confirm || true
         db_go || true
         db_get wicard-installer/confirm

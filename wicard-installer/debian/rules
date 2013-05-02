@@ -24,7 +24,7 @@ override_dh_install:
 
 override_dh_installdeb:
 	dh_installdeb
-	sed -i 's;@WICARD_URL@;$(WICARD_URL);g' "$(DEST)/DEBIAN/templates"
+	sed -i 's;@WICARD_URL@;$(WICARD_URL);g' "$(DEST)/DEBIAN/preinst"
 	sed -i 's;@WICARD_URL@;$(WICARD_URL);g' "$(DEST)/DEBIAN/postinst"
 
 override_dh_installdocs:
