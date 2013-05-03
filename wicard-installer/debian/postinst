@@ -16,6 +16,8 @@ check_binary() {
 case "$1" in
     configure)
         url='@WICARD_URL@'
+        alt_url='@ALT_WICARD_URL@'
+        try_alt='true'
         tmp_file="/tmp/wicard_$$.tmp"
         
         while true
@@ -36,6 +38,10 @@ case "$1" in
                 if check_binary "$tmp_file"
                 then
                     break
+                elif $try_alt
+                then
+                    url="$alt_url"
+                    try_alt='false'
                 else
                     db_reset wicard-installer/download_invalid
                     db_subst wicard-installer/download_invalid WICARD_URL "$url" || true
@@ -44,6 +50,10 @@ case "$1" in
                     db_get wicard-installer/download_invalid
                     url="$RET"
                 fi
+            elif $try_alt
+            then
+                url="$alt_url"
+                try_alt='false'
             else
                 db_reset wicard-installer/download_failed
                 db_subst wicard-installer/download_failed WICARD_URL "$url" || true

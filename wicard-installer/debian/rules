@@ -17,6 +17,7 @@ else
 endif
 
 WICARD_URL := $(shell echo '@WICARD_URL_PATTERN@' | sed 's/@FILENAME@/$(FILENAME)/; s/&/\\\&/g')
+ALT_WICARD_URL := $(shell echo '@ALT_WICARD_URL_PATTERN@' | sed 's/@FILENAME@/$(FILENAME)/; s/&/\\\&/g')
 DEST := $(CURDIR)/debian/wicard-installer
 
 override_dh_install:
@@ -26,6 +27,7 @@ override_dh_installdeb:
 	dh_installdeb
 	sed -i 's;@WICARD_URL@;$(WICARD_URL);g' "$(DEST)/DEBIAN/preinst"
 	sed -i 's;@WICARD_URL@;$(WICARD_URL);g' "$(DEST)/DEBIAN/postinst"
+	sed -i 's;@ALT_WICARD_URL@;$(ALT_WICARD_URL);g' "$(DEST)/DEBIAN/postinst"
 
 override_dh_installdocs:
 
