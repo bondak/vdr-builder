@@ -2,12 +2,14 @@
 
 case "$1" in
     purge|remove)
+        rm -f  /var/run/vdr.*
+        rm -f  /var/log/upstart/vdr.*
+
         if [ "$1" = 'purge' ]
         then
             rm -rf /etc/vdr/themes
             rm -rf /var/cache/vdr
             rm -rf /var/lib/video.00
-            rm -f  /var/log/upstart/vdr.*
         fi
     ;;
 esac
