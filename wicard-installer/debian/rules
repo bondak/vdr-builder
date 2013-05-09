@@ -6,7 +6,9 @@
 ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
 ifeq ($(ARCH),amd64)
-    FILENAME := wicardd-x64
+# The x64 version is broken
+#    FILENAME := wicardd-x64
+    FILENAME := wicardd-i386
 else
     ifeq ($(ARCH),i386)
         FILENAME := wicardd-i386
