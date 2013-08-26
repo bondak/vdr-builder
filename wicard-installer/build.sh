@@ -2,7 +2,7 @@
 set -e
 
 PKG_NAME="$(cd "$(dirname "$0")"; basename "$PWD")"
-WICARD_URL='http://sat-forum.info/download/index.php?directory=WICARD'
+WICARD_URL='https://edabphq3qj7elonk.onion.to/download/index.php?directory=WICARD'
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 . "$DIR/../commons.sh"
