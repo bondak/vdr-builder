@@ -4,22 +4,14 @@ DIR := $(CURDIR)
 DESTDIR := $(DIR)/debian/tmp
 NPROC := $(shell getconf _NPROCESSORS_ONLN)
 
-ifeq ($(DEB_BUILD_ARCH),amd64)
-	MAKE_ARGS += PARALLEL=PARALLEL_128_SSE
-endif
-
-ifeq ($(DEB_BUILD_ARCH),i386)
-	MAKE_ARGS += PARALLEL=PARALLEL_32_INT
-endif
-
 %:
 	dh $@ 
 
 override_dh_auto_build:
-	dh_auto_build -- -j$(NPROC) $(MAKE_ARGS)
+	dh_auto_build -- -j$(NPROC)
 
 override_dh_auto_install:
-	dh_auto_build -- install DESTDIR="$(DESTDIR)" $(MAKE_ARGS)
+	dh_auto_build -- install DESTDIR="$(DESTDIR)"
 	
 	# SC configs
 	[ -d "$(DESTDIR)/etc/vdr/plugins/sc" ] || mkdir -p "$(DESTDIR)/etc/vdr/plugins/sc"
