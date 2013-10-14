@@ -1,9 +1,0 @@
-#!/bin/sh
-
-case "$1" in
-    remove)
-        stop wicard > /dev/null 2>&1 || true
-        rm -rf /var/log/upstart/wicard* 2>&1 || true
-    ;;
-esac
-

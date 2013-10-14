@@ -1,9 +1,0 @@
-#!/bin/sh
-
-case "$1" in
-    remove)
-        stop oscam > /dev/null 2>&1 || true
-        rm -rf /var/log/oscam
-        rm -f /var/run/upstart/oscam*
-    ;;
-esac
