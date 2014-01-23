@@ -3,7 +3,7 @@ Section: video
 Priority: extra
 Maintainer: #MAINTAINER#
 Build-Depends: debhelper (>= 7.0.50~), vdr-dev (>= #VDR_VERSION#), pkg-config, 
- zlib1g-dev
+ zlib1g-dev, libssl-dev
 Standards-Version: 3.9.4
 Homepage: http://projects.vdr-developer.org/projects/vdr-manager
 
