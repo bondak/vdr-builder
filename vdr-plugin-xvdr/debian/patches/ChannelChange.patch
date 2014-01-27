@@ -1,39 +1,16 @@
 diff --git a/src/xvdr/xvdrclient.c b/src/xvdr/xvdrclient.c
-index b88b811..65855bf 100644
+index b88b811..7230358 100644
 --- a/src/xvdr/xvdrclient.c
 +++ b/src/xvdr/xvdrclient.c
-@@ -277,25 +277,15 @@ void cXVDRClient::TimerChange()
+@@ -277,6 +277,8 @@ void cXVDRClient::TimerChange()
    }
  }
  
-+void cXVDRClient::ChannelChange(const cChannel *Channel)
-+{
-+  ChannelChange();
-+}
++void cXVDRClient::ChannelChange(const cChannel *Channel) {}
 +
  void cXVDRClient::ChannelChange()
  {
    cMutexLock lock(&m_msgLock);
--
--  if(!m_StatusInterfaceEnabled)
--    return;
--
--  int count = ChannelsCount();
--  if (m_channelCount == count)
--  {
--    INFOLOG("Client %i: %i channels, no change", m_Id, count);
--    return;
--  }
--
--  if (m_channelCount == 0)
--    INFOLOG("Client %i: no channels - sending request", m_Id);
--  else
--    INFOLOG("Client %i : %i channels, %i available - sending request", m_Id, m_channelCount, count);
--
-+  INFOLOG("Sending channel change request to client #%i ...", m_Id);
-   MsgPacket* resp = new MsgPacket(XVDR_STATUS_CHANNELCHANGE, XVDR_CHANNEL_STATUS);
-   QueueMessage(resp);
- }
 diff --git a/src/xvdr/xvdrclient.h b/src/xvdr/xvdrclient.h
 index 2d58253..bf3fff3 100644
 --- a/src/xvdr/xvdrclient.h
