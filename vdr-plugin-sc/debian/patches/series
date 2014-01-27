@@ -1,3 +1,4 @@
 Makefile.patch
 MAXDVBDEVICES.patch
 ResetSlot.patch
+DvbDeviceReady.patch
