@@ -1,0 +1,17 @@
+Source: vdr-plugin-upnp
+Section: video
+Priority: extra
+Maintainer: #MAINTAINER#
+Build-Depends: debhelper (>= 8), vdr-dev (>= #VDR_VERSION#), gettext,
+ libupnp3-dev | libupnp6-dev, libsqlite3-dev, libavcodec-dev, libavformat-dev,
+ libboost-dev, libtntnet-dev, libtntdb-dev, pkg-config
+Standards-Version: 3.9.3
+Homepage: http://upnp.vdr-developer.org
+
+Package: vdr-plugin-upnp
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, vdr (>= #VDR_VERSION#), tntdb-sqlite2 | tntdb-sqlite4
+Description: This vdr-plugin extends the VDR with the possibility to act as an UPnP/DLNA Media Server
+ This Plugins extends the VDR with the possibility to act as an UPnP/DLNA Media
+ Server (DMS). It will serve VDR's contents in the network to any UPnP-AV and
+ DLNA capable devices.
