@@ -1,0 +1,25 @@
+#! /bin/sh
+set -e
+
+USER='aceproxy'
+GROUP='aceproxy'
+
+case "$1" in
+    configure)
+        addgroup --quiet --system $GROUP || true
+        adduser --system --home /usr/share/aceproxy --shell /bin/false \
+                --gecos "ACE Proxy user" --no-create-home \
+                --disabled-login --disabled-password \
+                --ingroup $GROUP $USER > /dev/null 2>&1 || true
+        
+        chown -R $USER:$GROUP /usr/share/aceproxy
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac

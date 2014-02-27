@@ -1,0 +1,19 @@
+#! /bin/sh
+
+USER='aceproxy'
+GROUP='aceproxy'
+
+case "$1" in
+    remove)
+        rm -rf /usr/share/aceproxy
+    ;;
+    purge)
+        stop aceproxy     2>/dev/null || true
+        groupdel $GROUP   2>/dev/null || true
+        userdel -rf $USER 2>/dev/null || true
+        rm -rf /etc/aceproxy
+        rm -rf /usr/share/aceproxy
+        rm -f /var/log/upstart/aceproxy*.log*
+        rm -f /var/log/upstart/acestreamengine.log*
+    ;;
+esac
