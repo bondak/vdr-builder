@@ -9,7 +9,8 @@ Homepage: http://www.saunalahti.fi/~rahrenbe/vdr/iptv/
 
 Package: vdr-plugin-iptv
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, vdr (>= #VDR_VERSION#), vlc
+Depends: ${shlibs:Depends}, ${misc:Depends}, vdr (>= #VDR_VERSION#)
+Recommends: vlc
 Description: IPTV plug-in for VDR
  This plug-in for the Linux Video Disc Recorder (VDR) seamlessly integrates
  multicast IPTV transport streams. You can use any IPTV channel like any other
