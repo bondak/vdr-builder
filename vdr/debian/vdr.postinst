@@ -13,11 +13,7 @@ case "$1" in
                 --ingroup $GROUP $USER > /dev/null 2>&1 || true
         adduser $USER video > /dev/null 2>&1 || true
         adduser $USER dialout > /dev/null 2>&1 || true
-        
-        chown $USER:$GROUP /etc/vdr
-        find /etc/vdr | xargs chown $USER:$GROUP
-        
-        start vdr > /dev/null 2>&1 || true
+        chown -R $USER:$GROUP /etc/vdr
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
