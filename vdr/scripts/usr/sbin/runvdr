@@ -8,13 +8,20 @@
 EXECUTABLE='/usr/bin/vdr'
 USER='vdr'
 GROUP='vdr'
-MODULES=$(lsmod | awk '/^dvb/ {gsub(/,/,"\\n", $4); print $4}' | uniq | tac | grep -v "^$")
+MODULES=$(lsmod | awk '/^dvb/ {gsub(/,/,"\n", $4); print $4}' | uniq | tac | grep -v "^$")
 [ "$MODULES" ] && MODULES="$MODULES dvb_core"
+
+unloadModule() {
+    for i in $(seq 1 5)
+    do
+        modprobe -r $MODULE && break || sleep 1
+    done
+}
 
 unloadDriver() {
     for MODULE in $MODULES
     do 
-        modprobe -r $MODULE >/dev/null 2>&1
+        unloadModule $MODULE >/dev/null 2>&1
     done
 }
 
