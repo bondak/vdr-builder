@@ -27,8 +27,9 @@ _iptv_version() {
 version() {
     local delta='0'
     local bs_ci_count=$(git --git-dir="$DIR/../.git" log --format='%H' -- "$PKG_NAME" | wc -l)
+    local vdr_ci_count=$(git --git-dir="$VDR_SRC_DIR/.git" log --format=%H $VDR_REV | wc -l)
     local version=$(_iptv_version)
-    echo "$version-$(($bs_ci_count + $delta))"
+    echo "$version-$(($bs_ci_count + $vdr_ci_count + $delta))"
 }
 
 _download() {
