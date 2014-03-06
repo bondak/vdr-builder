@@ -18,15 +18,17 @@ update() {
 }
 
 _deb_dir() {
-    local deb_dir="$BUILD_DIR/debian"
+    local deb_dir="$BUILD_DIR/$2/debian"
     
     if [ ! -d "$deb_dir" ]
     then
+    	mkdir -p "$BUILD_DIR/$2"
         cp -r "$DIR/debian" "$deb_dir"
         cp -r "$DIR/configs" "$deb_dir"
         cp -r "$DIR/scripts" "$deb_dir"
+        [ -e "$DIR/patches/$2" ] && cp -r "$DIR/patches/$2" "$deb_dir/patches"
     fi
-    
+
     echo "$deb_dir"
 }
 
