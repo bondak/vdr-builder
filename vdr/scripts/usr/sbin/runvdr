@@ -18,17 +18,30 @@ unloadModule() {
     done
 }
 
-unloadDriver() {
+unloadDrivers() {
     for MODULE in $MODULES
     do 
         unloadModule $MODULE >/dev/null 2>&1
     done
 }
 
-loadDriver() {
+loadDrivers() {
     for MODULE in $MODULES
     do 
         modprobe $MODULE >/dev/null 2>&1
+    done
+}
+
+reloadDrivers() {
+    echo "Reloading modules: $MODULES"
+    
+    for i in $(seq 1 $RELOAD_RETRIES)
+    do
+        unloadDrivers
+        sleep $LOAD_DRIVERS_DELAY
+        loadDrivers
+        sleep $RELOAD_CONDITION_DELAY
+        $RELOAD_CONDITION && break
     done
 }
 
@@ -78,17 +91,12 @@ start() {
     chown $USER:$GROUP "$epg_dir"
     chown $USER:$GROUP "$VIDEO_DIR"
     setEnv
+    
+    [ "$RELOAD_DRIVERS" = 'true' ] && reloadDrivers
 
     ([ -z "$PLUGINS" ] && echo 'Starting VDR') || \
     echo "Starting VDR with plugins: $PLUGINS"
-
-    for i in $(seq 1 5)
-    do
-        unloadDriver
-        loadDriver
-        [ -e '/dev/dvb/adapter0/frontend0' ] && break
-    done
-
+    
     eval exec "$EXECUTABLE" $args $plugins
 }
 
