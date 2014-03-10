@@ -1,1 +1,1 @@
-debian/m3u2vdr.sh    etc/vdr/plugins/iptv/
+debian/m3u2vdr.sh    usr/share/vdr/plugins/iptv/

@@ -27,10 +27,10 @@ do
             port="$(echo "$url" | grep -Eo ':[0-9]+/' | tr -d [:/])"
             url="$(echo "$url" | sed -r "s|http://||; s|:[0-9]*/|/|")"
             [ -z "$port" ] && port='80'
-            echo "${name};IPTV:${counter}:S=1|P=1|F=HTTP|U=${url}|A=${port}:I:0:2=2:2=2:0:0:${counter}:0:0:0"
+            echo "${name};IPTV:${counter}:S=0|P=0|F=HTTP|U=${url}|A=${port}:I:0:69:68:0:0:${counter}:0:0:0"
         else
            url="$(echo "$url" | sed "s/:/%3A/g")"
-            echo "${name};IPTV:${counter}:S=1|P=0|F=CURL|U=${url}|A=${counter}:I:0:2=2:2=2:0:0:${counter}:0:0:0"
+            echo "${name};IPTV:${counter}:S=0|P=0|F=CURL|U=${url}|A=${counter}:I:0:69:68:0:0:${counter}:0:0:0"
         fi
     fi
 done
