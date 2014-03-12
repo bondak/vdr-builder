@@ -1,1 +1,3 @@
-debian/m3u2vdr.sh    usr/share/vdr/plugins/iptv/
+debian/scripts/vlc2iptv      usr/share/vdr/plugins/iptv/
+debian/scripts/m3u2iptv      usr/share/vdr/plugins/iptv/
+debian/scripts/torrent-tv    usr/share/vdr/plugins/iptv/

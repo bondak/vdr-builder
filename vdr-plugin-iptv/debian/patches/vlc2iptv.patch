@@ -1,20 +1,46 @@
 --- a/iptv/vlc2iptv	2014-03-09 06:20:00.000000000 +0400
 +++ b/iptv/vlc2iptv	2014-03-12 00:05:28.106155252 +0400
-@@ -52,11 +52,11 @@
+@@ -25,10 +25,10 @@
+ # <Global Settings>
+ #
+ 
+-CHANNELS_CONF=/var/lib/vdr/channels.conf
++ps -f -u vdr | awk '/dst=127.0.0.1:4321/ {print $2}' | xargs kill
++
++CHANNELS_CONF=/etc/vdr/channels.conf
+ CHANNEL_SETTINGS_DIR=/etc/vdr/plugins/iptv/vlcinput/
+-VIDEO_BITRATE=2400
+-AUDIO_BITRATE=320
+ 
+ #
+ # </Global Settings>
+@@ -42,7 +42,7 @@
+ 
+ read_arguments()
+ {
+-    [ $# -ne 2 ] && exit_with_error "Invalid parameter count '$#' $*"
++    [ $# -lt 2 ] && exit_with_error "Invalid parameter count '$#' $*"
+     PARAMETER=$1
+     PORT=$2
+ }
+@@ -52,11 +52,14 @@
      [ ! -e "$CHANNELS_CONF" ] && \
        exit_with_error "channels.conf not found ($CHANNELS_CONF)"
  
 -    local CHANNEL_RECORD=`grep "[:]S=[10][|]P=[10][|]F=EXT[|]U=vlc2iptv[|]A=$PARAMETER[:]I" $CHANNELS_CONF`
-+    local CHANNEL_RECORD="`grep "[:]S=[10][|]P=[10][|]F=EXT[|]U=vlc2iptv[|]A=$PARAMETER[:]I" $CHANNELS_CONF`"
++    local CHANNEL_RECORD="`grep "[:]S=[10][|]P=[10][|]F=EXT[|]U=vlc2iptv[|]A=$PARAMETER.*[:]I" $CHANNELS_CONF`"
      [ -z "$CHANNEL_RECORD" ] && \
        exit_with_error "no iptv channel with parameter $PARAMETER found"
  
 -    CHANNEL_NAME=`echo $CHANNEL_RECORD | awk "-F[;,:]" '{print $1}'`
++    eval "$(echo "$CHANNEL_RECORD" | grep -o "[|]A=$PARAMETER.*[:]I" | grep -oE '(TRANSCODE)=[^:]+')"
++    : ${TRANSCODE:="vcodec=mp2v,acodec=mpga,vb=2400,ab=320"}
++
 +    CHANNEL_NAME="`echo $CHANNEL_RECORD | awk "-F[;,:]" '{print $1}'`"
      VPID=`echo $CHANNEL_RECORD | awk -F: '{print $6}'`
      APID=`echo $CHANNEL_RECORD | awk -F: '{print $7}'`
      SPID=0
-@@ -68,7 +68,7 @@
+@@ -68,7 +71,7 @@
  
      [ ! -e $CHANNEL_SETTINGS_FILE ] && \
        exit_with_error "No vlc input configuration for channel '$CHANNEL_NAME'"
@@ -23,3 +49,19 @@
      
      [ -z "$URL" ] && \
        exit_with_error "No URL specified for channel '$CHANNEL_NAME'"
+@@ -89,7 +92,7 @@
+ fi
+ 
+ vlc "${URL}" \
+-  --sout "#transcode{vcodec=mp2v$RESIZE_OPTIONS,acodec=mpga,vb=${VIDEO_BITRATE},ab=${AUDIO_BITRATE}}:standard{access=udp,mux=ts{pid-video=${VPID},pid-audio=${APID},pid-spu=${SPID}},dst=127.0.0.1:${PORT}}" \
++  --sout "#transcode{${TRANSCODE}}:standard{access=udp,mux=ts{pid-video=${VPID},pid-audio=${APID},pid-spu=${SPID}},dst=127.0.0.1:${PORT}}" \
+   --intf dummy &
+ 
+ PID=${!}
+@@ -97,4 +100,4 @@
+ trap 'kill -INT ${PID} 2> /dev/null' INT EXIT QUIT TERM
+ 
+ # Waiting for the given PID to terminate
+-wait ${PID}
++wait ${PID}
+\ No newline at end of file

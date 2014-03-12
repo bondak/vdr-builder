@@ -1,0 +1,41 @@
+#!/bin/sh
+
+: ${PORT:="$2"}
+: ${PARAMETER:="$1"}
+: ${SCRIPT_NAME:="$(basename "$0")"}
+: ${CHANNELS_CONF:='/etc/vdr/channels.conf'}
+
+log() {
+    logger -t "${SCRIPT_NAME}" "$@"
+}
+
+fail() {
+    log "Error: $@"
+    exit 1
+}
+
+CHANNEL_RECORD="$(grep "[:]S=[10][|]P=[10][|]F=EXT[|]U=${SCRIPT_NAME}[|]A=$PARAMETER.*[:]I" $CHANNELS_CONF)"
+[ -z "$CHANNEL_RECORD" ] && fail "no iptv channel with parameter $PARAMETER found"
+
+eval "$(echo "$CHANNEL_RECORD" | grep -o "[|]A=$PARAMETER.*[:]I" | tr '_' ' ' | grep -oE '(URL|VCODEC|ACODEC|VB|AB|TRANSCODE)=[^:]+')"
+[ -z "$URL" ] && fail "playlist URL is not specified"
+
+URL="$(echo "$URL" | sed 's/%3A/:/g')"
+CHANNEL_NAME="$(echo $CHANNEL_RECORD | awk '-F[;,:]' '{print $1}' | tr '|' ':')"
+CHANNEL_URL="$(curl "$URL" 2>/dev/null | grep ",$CHANNEL_NAME\\s*$" -A 1 -m 1 | grep -v '^#')"
+[ -z "$CHANNEL_URL" ] && fail "no channel $CHANNEL_NAME found in playlist $PLAYLIST_URL"
+
+VPID=`echo $CHANNEL_RECORD | awk -F: '{print $6}'`
+APID=`echo $CHANNEL_RECORD | awk -F: '{print $7}'`
+
+: ${VCODEC:='mp2v'}
+: ${ACODEC:='mpga'}
+: ${VB:='2400'}
+: ${AB:='320'}
+: ${TRANSCODE:="vcodec=${VCODEC},vb=${VB},acodec=${ACODEC},ab=${AB}"}
+
+ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print $2}" | xargs kill
+
+exec vlc "${CHANNEL_URL}" \
+  --sout "#transcode{${TRANSCODE}}:standard{access=udp,mux=ts{pid-video=${VPID},pid-audio=${APID},pid-spu=0},dst=127.0.0.1:${PORT}}" \
+  --intf dummy &
