@@ -34,7 +34,8 @@ APID=`echo $CHANNEL_RECORD | awk -F: '{print $7}'`
 : ${AB:='320'}
 : ${TRANSCODE:="vcodec=${VCODEC},vb=${VB},acodec=${ACODEC},ab=${AB}"}
 
-ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print $2}" | xargs kill
+ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print \$2}" | xargs kill
+ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print \$2}" | xargs kill -9
 
 exec vlc "${CHANNEL_URL}" \
   --sout "#transcode{${TRANSCODE}}:standard{access=udp,mux=ts{pid-video=${VPID},pid-audio=${APID},pid-spu=0},dst=127.0.0.1:${PORT}}" \

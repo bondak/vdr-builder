@@ -91,7 +91,8 @@ else
     RESIZE_OPTIONS=""
 fi
 
-ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print $2}" | xargs kill
+ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print \$2}" | xargs kill
+ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print \$2}" | xargs kill -9
 
 vlc "${URL}" \
   --sout "#transcode{${TRANSCODE}}:standard{access=udp,mux=ts{pid-video=${VPID},pid-audio=${APID},pid-spu=${SPID}},dst=127.0.0.1:${PORT}}" \
