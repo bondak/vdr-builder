@@ -39,4 +39,4 @@ ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print \$2}" | xargs kill -9
 
 exec vlc "${CHANNEL_URL}" \
   --sout "#transcode{${TRANSCODE}}:standard{access=udp,mux=ts{pid-video=${VPID},pid-audio=${APID},pid-spu=0},dst=127.0.0.1:${PORT}}" \
-  --intf dummy &
+  --intf dummy
