@@ -2,7 +2,7 @@ Source: vdr-plugin-wirbelscan
 Section: video
 Priority: extra
 Maintainer: Andrey Pavlenko <andrey.a.pavlenko@gmail.com>
-Build-Depends: debhelper (>= 7.0.50~), vdr-dev (>= 1.7.38), gettext, libzvbi-dev
+Build-Depends: debhelper (>= 7.0.50~), vdr-dev (>= #VDR_VERSION#), gettext, libzvbi-dev
 Standards-Version: 3.9.1
 Homepage: http://wirbel.htpc-forum.de/wirbelscan/index2.html
 
