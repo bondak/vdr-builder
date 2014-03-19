@@ -8,13 +8,17 @@
 EXECUTABLE='/usr/bin/vdr'
 USER='vdr'
 GROUP='vdr'
-MODULES=$(lsmod | awk '/^dvb/ {gsub(/,/,"\n", $4); print $4}' | uniq | tac | grep -v "^$")
 
-if [ -z "$MODULES" ] 
+if [ "$RELOAD_DRIVERS" = 'true' ]
 then
-    RELOAD_DRIVERS='false'
-else
-    MODULES="$MODULES dvb_core"
+    MODULES=$(lsmod | awk '/^dvb/ {gsub(/,/,"\n", $4); print $4}' | sort -u | tac | grep -v '^$')
+    
+    if [ -z "$MODULES" ]
+    then
+        RELOAD_DRIVERS='false'
+    else
+        MODULES="$MODULES dvb_core"
+    fi
 fi
 
 unloadModule() {
