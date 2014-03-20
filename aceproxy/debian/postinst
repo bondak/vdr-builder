@@ -13,6 +13,25 @@ case "$1" in
                 --ingroup $GROUP $USER > /dev/null 2>&1 || true
         
         chown -R $USER:$GROUP /usr/share/aceproxy
+        
+        # Cleanup obsolete pyc files
+        rm -f /usr/share/aceproxy/plugins/raketatv*.pyc
+        rm -f /usr/share/aceproxy/plugins/ttvplaylist*.pyc
+        
+        # Raketa-tv is no longer supported
+        rm -f /etc/aceproxy/raketatv_config.py
+        
+        # Convert old torrent-tv config
+        if [ -f /etc/aceproxy/ttvplaylist_config.py ]
+        then
+            url="$(grep -oE '^\s*url\s*=.*$' /etc/aceproxy/ttvplaylist_config.py)"
+            rm -f /etc/aceproxy/ttvplaylist_config.py
+            
+            if [ ! -z "$url" ]
+            then
+                sed -i -r "s|^\s*url\s*=.*$|$url|" /etc/aceproxy/torrenttv.py || true
+            fi
+        fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

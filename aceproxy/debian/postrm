@@ -4,6 +4,9 @@ USER='aceproxy'
 GROUP='aceproxy'
 
 case "$1" in
+    upgrade)
+        find /usr/share/aceproxy -name '*.pyc' | xargs rm -f || true
+    ;;
     remove)
         rm -rf /usr/share/aceproxy
     ;;
