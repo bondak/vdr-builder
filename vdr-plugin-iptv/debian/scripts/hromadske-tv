@@ -2,11 +2,9 @@
 
 PORT="$2"
 VIDEO_ID="$(curl 'http://www.youtube.com/user/HromadskeTV' 2>/dev/null | grep -oP -m 1 ' data-video-ids=".+?" ' | awk -F '"' '{print $2}')"
-URL="http://www.youtube.com/watch?v=$VIDEO_ID"
+YOUTUBE_URL="http://www.youtube.com/watch?v=$VIDEO_ID"
+VIDEO_URL="$(youtube-dl -f 93 -g "$YOUTUBE_URL")"
 
-ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print \$2}" | xargs kill
-ps -f -u vdr | awk "/dst=127.0.0.1:${PORT}/ {print \$2}" | xargs kill -9
-
-exec vlc "${URL}" \
-  --sout "#transcode{vcodec=mp2v,vb=800,acodec=mpga,ab=160,width=640,height=360}:standard{access=udp,mux=ts{pid-video=256,pid-audio=257},dst=127.0.0.1:${PORT}}" \
+exec vlc "${VIDEO_URL}" --network-caching 1000 --sout-mux-caching 2000 \
+  --sout "#transcode{vcodec=mp2v,vb=800,acodec=mpga,ab=160,width=480,height=270}:standard{access=udp,mux=ts{pid-video=256,pid-audio=257},dst=127.0.0.1:${PORT}}" \
   --intf dummy
